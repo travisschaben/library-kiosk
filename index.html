@@ -56,44 +56,45 @@
     <iframe id="responseFrame" name="responseFrame"></iframe>
 
     <script>
-        function sendHelpRequest() {
-            const button = document.getElementById('helpButton');
-            const status = document.getElementById('status');
-            
-            // Disable button
-            button.disabled = true;
-            
-            // Show status
-            status.textContent = "Sending help request...";
-            status.style.display = "block";
-            
-            // Create a form dynamically
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'https://prod-139.westus.logic.azure.com:443/workflows/1b36b3fb956d44c3bdd39b89bccd4388/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QahiAJh-hvFr9DX4hpl5C5E85Csk9Klu9QBVcBUWjeY';
-            form.target = 'responseFrame';
-            
-            // Add hidden input with message
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'text';
-            input.value = 'Help needed at the library help desk kiosk!';
-            form.appendChild(input);
-            
-            // Add form to document, submit it, and remove it
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-            
-            // Show success message
-            status.textContent = "Help request sent successfully! Someone will assist you shortly.";
-            
-            // Reset button after delay
-            setTimeout(() => {
-                button.disabled = false;
-                status.style.display = "none";
-            }, 30000);
-        }
-    </script>
+    function sendHelpRequest() {
+        const button = document.getElementById('helpButton');
+        const status = document.getElementById('status');
+        
+        // Disable button
+        button.disabled = true;
+        
+        // Show status
+        status.textContent = "Sending help request...";
+        status.style.display = "block";
+        
+        // Create a form dynamically
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://prod-139.westus.logic.azure.com:443/workflows/1b36b3fb956d44c3bdd39b89bccd4388/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QahiAJh-hvFr9DX4hpl5C5E85Csk9Klu9QBVcBUWjeY';
+        form.target = 'responseFrame';
+        form.enctype = 'application/json';
+        
+        // Create a hidden input for the JSON payload
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'text';
+        input.value = JSON.stringify({ text: "Help needed at the library help desk kiosk!" });
+        form.appendChild(input);
+        
+        // Add form to document, submit it, and remove it
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+        
+        // Show success message
+        status.textContent = "Help request sent successfully! Someone will assist you shortly.";
+        
+        // Reset button after delay
+        setTimeout(() => {
+            button.disabled = false;
+            status.style.display = "none";
+        }, 30000);
+    }
+</script>
 </body>
 </html>
